@@ -52,7 +52,7 @@ export class UserInfo extends Component {
 
         await fetch(UserInfo.API_URL, {
             body: JSON.stringify(this.state.userInfo),
-            method: this.state.isEditing ? 'POST' : 'PUT',
+            method: this.state.isEditing ? 'PUT' : 'POST',
             headers: { 'Content-Type': 'application/json' }
         });
 

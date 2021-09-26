@@ -49,6 +49,12 @@ namespace PerfReviewsTest.Services
             userBuilder.Property(u => u.Login).HasMaxLength(16);
             userBuilder.Property(u => u.Name).HasMaxLength(64);
             userBuilder.HasKey(u => u.Login);
+
+            // Review entity
+            modelBuilder.Entity<Review>()
+                .HasMany(rev => rev.Results)
+                .WithOne(res => res.Review)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

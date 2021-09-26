@@ -43,8 +43,8 @@ namespace PerfReviewsTest.Controllers
                 : NotFound();
         }
 
-        [HttpPut]
-        public async Task<string> Put([FromBody]User userInfo)
+        [HttpPost]
+        public async Task<string> Post([FromBody]User userInfo)
         {
             await usersRepo.AddAsync(userInfo);
             logger.LogInformation("Registered user: {0}", userInfo.Login);
@@ -52,8 +52,8 @@ namespace PerfReviewsTest.Controllers
             return userInfo.Login;
         }
 
-        [HttpPost]
-        public async Task Post([FromBody]User userInfo)
+        [HttpPut]
+        public async Task Put([FromBody]User userInfo)
         {
             await usersRepo.UpdateAsync(userInfo);
         }

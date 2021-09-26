@@ -15,10 +15,14 @@ export class Reviews extends Component {
             reviews: []
         };
 
+        this.removeReview = this.removeReview.bind(this);
+
         this.loadReviews();
     }
 
     async loadReviews() {
+        this.setState({ isLoading: true });
+
         const resp = await fetch(Reviews.API_URL);
         const reviewsInfo = await resp.json();
 
@@ -26,6 +30,11 @@ export class Reviews extends Component {
             isLoading: false,
             reviews: reviewsInfo
         });
+    }
+
+    async removeReview(id) {
+        await fetch(`${Reviews.API_URL}/${id}`, { method: 'DELETE' });
+        await this.loadReviews();
     }
 
     render() {
@@ -69,7 +78,8 @@ export class Reviews extends Component {
                                     <button
                                         type="button"
                                         className="btn btn-sm btn-danger"
-                                        title="Remove review">
+                                        title="Remove review"
+                                        onClick={this.removeReview.bind(this, rev.id)}>
                                         &times;
                                     </button>
                                 </td>

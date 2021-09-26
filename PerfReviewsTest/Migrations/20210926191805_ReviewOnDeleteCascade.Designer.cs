@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PerfReviewsTest.Services;
 
 namespace PerfReviewsTest.Migrations
 {
     [DbContext(typeof(PerfContext))]
-    partial class PerfContextModelSnapshot : ModelSnapshot
+    [Migration("20210926191805_ReviewOnDeleteCascade")]
+    partial class ReviewOnDeleteCascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

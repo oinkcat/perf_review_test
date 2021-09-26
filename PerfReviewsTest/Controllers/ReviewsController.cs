@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PerfReviewsTest.Models;
+using PerfReviewsTest.Models.Dto;
 using PerfReviewsTest.Services;
 
 namespace PerfReviewsTest.Controllers
@@ -39,24 +40,38 @@ namespace PerfReviewsTest.Controllers
         }
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ReviewInfo> Get(int id)
         {
-            throw new NotImplementedException();
+            var reviewToEdit = await reviewsRepo.GetByIdAsync(id);
+            return new ReviewInfo(reviewToEdit);
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task Post([FromBody]ReviewInfo info)
         {
+            await reviewsRepo.AddAsync(info.ToReview());
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task Put(int id, [FromBody]ReviewInfo info)
         {
+            await reviewsRepo.UpdateAsync(info.ToReview());
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var reviewToRemove = await reviewsRepo.GetByIdAsync(id);
+
+            if(reviewToRemove != null)
+            {
+                await reviewsRepo.RemoveAsync(reviewToRemove);
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }
