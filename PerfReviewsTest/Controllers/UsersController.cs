@@ -1,0 +1,79 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using PerfReviewsTest.Models;
+using PerfReviewsTest.Services;
+
+namespace PerfReviewsTest.Controllers
+{
+    /// <summary>
+    /// Users web API
+    /// </summary>
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UsersController : ControllerBase
+    {
+        private readonly ILogger<UsersController> logger;
+
+        private readonly IAsyncRepository<User, string> usersRepo;
+
+        public UsersController(
+            ILogger<UsersController> logger,
+            IAsyncRepository<User, string> usersRepo
+        )
+        {
+            this.logger = logger;
+            this.usersRepo = usersRepo;
+        }
+
+        [HttpGet]
+        public async Task<List<User>> Get() => await usersRepo.GetAllAsync();
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
+        {
+            var user = await usersRepo.GetByIdAsync(id);
+
+            return (user != null)
+                ? Ok(user)
+                : NotFound();
+        }
+
+        [HttpPut]
+        public async Task<string> Put([FromBody]User userInfo)
+        {
+            await usersRepo.AddAsync(userInfo);
+            logger.LogInformation("Registered user: {0}", userInfo.Login);
+
+            return userInfo.Login;
+        }
+
+        [HttpPost]
+        public async Task Post([FromBody]User userInfo)
+        {
+            await usersRepo.UpdateAsync(userInfo);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var userToDelete = await usersRepo.GetByIdAsync(id);
+
+            if(userToDelete != null)
+            {
+                await usersRepo.RemoveAsync(userToDelete);
+                logger.LogInformation("Removed user: {0}", userToDelete.Login);
+
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+    }
+}
