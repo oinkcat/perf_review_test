@@ -8,6 +8,8 @@ import { UserInfo } from './components/UserInfo';
 import { Reviews } from './components/Reviews';
 import { ReviewInfo } from './components/ReviewInfo';
 
+import { Ratings } from './components/Ratings';
+
 import './custom.css'
 
 export default class App extends Component {
@@ -25,6 +27,8 @@ export default class App extends Component {
                 <Route exact path='/reviews' component={Reviews} />
                 <Route exact path='/reviews/create' component={ReviewInfo} />
                 <Route exact path='/reviews/edit/:id' component={ReviewInfo} />
+
+                <Route exact path='/ratings' component={Ratings} />
             </Layout>
         );
     }

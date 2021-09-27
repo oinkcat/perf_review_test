@@ -17,6 +17,9 @@ export class Home extends Component {
                 <li>
                     <Link to="/reviews">Manage Performance Reviews</Link>
                 </li>
+                <li>
+                    <Link to="/ratings">Rate users</Link>
+                </li>
             </ul>
         </div>
     );

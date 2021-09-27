@@ -32,6 +32,7 @@ namespace PerfReviewsTest
 
             services.AddScoped<IAsyncRepository<User, string>, UsersRepo>();
             services.AddScoped<IAsyncRepository<Review, int>, ReviewsRepo>();
+            services.AddScoped<IReviewer, PerfReviewer>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
