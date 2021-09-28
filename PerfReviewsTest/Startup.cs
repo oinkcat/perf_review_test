@@ -30,7 +30,7 @@ namespace PerfReviewsTest
             // Data services
             services.AddDbContext<PerfContext>();
 
-            services.AddScoped<IAsyncRepository<User, string>, UsersRepo>();
+            services.AddScoped<IUsersRepository, UsersRepo>();
             services.AddScoped<IAsyncRepository<Review, int>, ReviewsRepo>();
             services.AddScoped<IReviewer, PerfReviewer>();
         }

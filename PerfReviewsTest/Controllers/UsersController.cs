@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PerfReviewsTest.Models;
+using PerfReviewsTest.Models.Dto;
 using PerfReviewsTest.Services;
 
 namespace PerfReviewsTest.Controllers
@@ -19,11 +20,11 @@ namespace PerfReviewsTest.Controllers
     {
         private readonly ILogger<UsersController> logger;
 
-        private readonly IAsyncRepository<User, string> usersRepo;
+        private readonly IUsersRepository usersRepo;
 
         public UsersController(
             ILogger<UsersController> logger,
-            IAsyncRepository<User, string> usersRepo
+            IUsersRepository usersRepo
         )
         {
             this.logger = logger;
@@ -32,6 +33,14 @@ namespace PerfReviewsTest.Controllers
 
         [HttpGet]
         public async Task<List<User>> Get() => await usersRepo.GetAllAsync();
+
+        [HttpGet("with/rating")]
+        public async Task<List<UserWithRatingDto>>GetWithRatings()
+        {
+            return (await usersRepo.GetAllWithRatingsAsync())
+                .Select(u => new UserWithRatingDto(u))
+                .ToList();
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)

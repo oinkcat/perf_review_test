@@ -10,7 +10,7 @@ namespace PerfReviewsTest.Services
     /// <summary>
     /// Users information database storage
     /// </summary>
-    public class UsersRepo : IAsyncRepository<User, string>
+    public class UsersRepo : IUsersRepository
     {
         private readonly PerfContext context;
 
@@ -45,5 +45,12 @@ namespace PerfReviewsTest.Services
             context.Remove(item);
             await context.SaveChangesAsync();
         }
+
+        /// <inheritdoc />
+        public Task<List<User>> GetAllWithRatingsAsync() => context.Users
+            .Include(u => u.Reviews)
+            .ThenInclude(rev => rev.Results)
+            .OrderBy(u => u.Name)
+            .ToListAsync();
     }
 }

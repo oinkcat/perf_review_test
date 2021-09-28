@@ -25,7 +25,7 @@ export class Users extends Component {
     async fetchUsersInfo() {
         this.setState({ isLoading: true });
 
-        const resp = await fetch(Users.API_URL);
+        const resp = await fetch(`${Users.API_URL}/with/rating`);
         const usersData = await resp.json();
 
         this.setState({
@@ -63,7 +63,8 @@ export class Users extends Component {
                     <thead>
                         <tr>
                             <th className="w-25" role="col">Login</th>
-                            <th className="w-auto" role="col">User Name</th>
+                            <th className="w-50" role="col">User Name</th>
+                            <th className="w-auto" role="col">Rating</th>
                             <th className="w-5" role="col"></th>
                         </tr>
                     </thead>
@@ -74,6 +75,19 @@ export class Users extends Component {
                                     <Link to={`/users/edit/${user.login}`}>{user.login}</Link>
                                 </td>
                                 <td>{user.name}</td>
+                                <td>
+                                    {user.rating
+                                        ? ( 
+                                            <span>
+                                                <strong className={this.getClassForRating(user)}>
+                                                    {user.rating}
+                                                </strong>
+                                                &nbsp;
+                                                ({user.marksCount})
+                                            </span>
+                                        )
+                                        : '-'}
+                                </td>
                                 <td className="text-center">
                                     <button
                                         type="button"
@@ -89,5 +103,11 @@ export class Users extends Component {
                 </table>
             )
             : <p className="alert alert-info">No users registered</p>
+    }
+
+    getClassForRating(user) {
+        if (user.rating >= 4) return 'text-success';
+        else if (user.rating >= 3) return 'text-warning';
+        else return 'text-danger';
     }
 }

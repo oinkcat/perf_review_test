@@ -28,5 +28,11 @@ namespace PerfReviewsTest.Models
         /// User performance reviews' results
         /// </summary>
         public IList<Result> Results { get; set; }
+
+        /// <summary>
+        /// String representation of user
+        /// </summary>
+        /// <returns>User login</returns>
+        public override string ToString() => Login;
     }
 }

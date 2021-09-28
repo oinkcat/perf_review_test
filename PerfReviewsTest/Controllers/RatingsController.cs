@@ -19,13 +19,13 @@ namespace PerfReviewsTest.Controllers
     {
         private readonly ILogger<RatingsController> logger;
 
-        private readonly IAsyncRepository<User, string> usersRepo;
+        private readonly IUsersRepository usersRepo;
 
         private readonly IReviewer reviewSvc;
 
         public RatingsController (
             ILogger<RatingsController> logger,
-            IAsyncRepository<User, string> usersRepo,
+            IUsersRepository usersRepo,
             IReviewer reviewSvc
         )
         {
@@ -53,6 +53,11 @@ namespace PerfReviewsTest.Controllers
             ushort mark = ushort.Parse(markValue);
 
             await reviewSvc.RateUser(reviewResult.Reviewer, targetUser, mark);
+
+            logger.LogInformation("User {0} rated by user {1} with {2}", 
+                                  reviewResult.Reviewer, 
+                                  targetUser,
+                                  mark);
         }
     }
 }

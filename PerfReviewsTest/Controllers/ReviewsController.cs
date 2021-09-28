@@ -50,6 +50,8 @@ namespace PerfReviewsTest.Controllers
         public async Task Post([FromBody]ReviewInfo info)
         {
             await reviewsRepo.AddAsync(info.ToReview());
+
+            logger.LogInformation("Added review on user {0}", info.TargetUserLogin);
         }
 
         [HttpPut("{id}")]
