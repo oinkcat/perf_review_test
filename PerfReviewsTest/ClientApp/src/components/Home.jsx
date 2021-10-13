@@ -7,18 +7,18 @@ export class Home extends Component {
   render () {
     return (
         <div>
-            <h1>User Performance Review Test!</h1>
+            <h1>Employees Performance Review Test!</h1>
             <p className="lead">A small React app</p>
 
             <ul className="items-list">
                 <li>
-                    <Link to="/users">Manage Users</Link>
+                    <Link to="/users">Manage Employees</Link>
                 </li>
                 <li>
                     <Link to="/reviews">Manage Performance Reviews</Link>
                 </li>
                 <li>
-                    <Link to="/ratings">Rate users</Link>
+                    <Link to="/ratings">Rate employees</Link>
                 </li>
             </ul>
         </div>

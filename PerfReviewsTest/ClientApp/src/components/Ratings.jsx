@@ -61,7 +61,7 @@ export class Ratings extends Component {
         return (
             <div>
                 <header className="h1 row">
-                    <div className="col-auto mr-auto">User ratings</div>
+                    <div className="col-auto mr-auto">Employee ratings</div>
                     <div className="col-3">
                         <select className="form-control" onChange={this.userSelected}>
                             <option />
@@ -72,11 +72,11 @@ export class Ratings extends Component {
                     </div>
                 </header>
 
-                <p className="lead">Rate users listed below</p>
+                <p className="lead">Rate employees listed below</p>
 
                 {this.state.currentUser
                     ? this.renderRatingsTable()
-                    : <p className="alert alert-info">Select user to view reviews</p>}
+                    : <p className="alert alert-info">Select employee to view reviews</p>}
             </div>
         );
     }
@@ -87,7 +87,7 @@ export class Ratings extends Component {
                 <table className="table table-hover">
                     <thead>
                         <tr>
-                            <th className="w-75">User name</th>
+                            <th className="w-75">Employee name</th>
                             <th className="w-auto">Your rating</th>
                         </tr>
                     </thead>
@@ -105,6 +105,6 @@ export class Ratings extends Component {
                     </tbody>
                 </table>
             )
-            : <p className="alert alert-info">No available users for review</p>;
+            : <p className="alert alert-info">No available employees for review</p>;
     }
 }

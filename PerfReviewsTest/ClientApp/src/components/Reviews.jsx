@@ -47,7 +47,7 @@ export class Reviews extends Component {
                     </div>
                 </header>
 
-                <p className="lead">All users' performance reviews</p>
+                <p className="lead">All employees' performance reviews</p>
 
                 {this.state.isLoading ? <LoadingIndicator /> : this.renderReviewsTable() }
             </div>
@@ -60,8 +60,8 @@ export class Reviews extends Component {
                 <table className="table table-hover">
                     <thead>
                         <tr>
-                            <th className="w-auto" role="col">User name</th>
-                            <th className="w-25" role="col">Date</th>
+                            <th className="w-auto" role="col">Employee name</th>
+                            <th className="w-25" role="col">Review date</th>
                             <th className="w-5" role="col"></th>
                         </tr>
                     </thead>

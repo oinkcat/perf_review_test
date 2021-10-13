@@ -43,13 +43,13 @@ export class Users extends Component {
         return (
             <div>
                 <header className="h1 row">
-                    <div class="col-auto mr-auto">Users</div>
+                    <div class="col-auto mr-auto">Employees</div>
                     <div class="col-auto">
-                        <Link className="btn btn-primary" to="/users/register">Register user</Link>
+                        <Link className="btn btn-primary" to="/users/register">Register new</Link>
                     </div>
                 </header>
 
-                <p className="lead">All registered users</p>
+                <p className="lead">All registered employees</p>
 
                 { this.state.isLoading ? <LoadingIndicator /> : this.renderUsersTable() }
             </div>
@@ -63,8 +63,8 @@ export class Users extends Component {
                     <thead>
                         <tr>
                             <th className="w-25" role="col">Login</th>
-                            <th className="w-50" role="col">User Name</th>
-                            <th className="w-auto" role="col">Rating</th>
+                            <th className="w-50" role="col">Employee name</th>
+                            <th className="w-auto" role="col">Current rating</th>
                             <th className="w-5" role="col"></th>
                         </tr>
                     </thead>
@@ -92,7 +92,7 @@ export class Users extends Component {
                                     <button
                                         type="button"
                                         className="btn btn-sm btn-danger"
-                                        title="Remove user"
+                                        title="Remove employee"
                                         onClick={this.removeUser.bind(this, user.login)}>
                                         &times;
                                     </button>
@@ -102,7 +102,7 @@ export class Users extends Component {
                     </tbody>
                 </table>
             )
-            : <p className="alert alert-info">No users registered</p>
+            : <p className="alert alert-info">No employees registered</p>
     }
 
     getClassForRating(user) {

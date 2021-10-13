@@ -120,7 +120,7 @@ export class ReviewInfo extends Component {
         return (
             <form onSubmit={this.dataSubmit}>
                 <div className="form-group row">
-                    <label className="col-sm-2">User for review</label>
+                    <label className="col-sm-2">Employee for review</label>
                     <div className="col-sm-5">
                         <select
                             className="form-control"

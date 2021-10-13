@@ -78,12 +78,12 @@ export class UserInfo extends Component {
             ? (
                 <header>
                     <h1>{this.props.match.params.id}</h1>
-                    <p className="lead">User information</p>
+                    <p className="lead">Employee information</p>
                 </header>
             )
             : (
                 <header>
-                    <h1>User registration</h1>
+                    <h1>Employee registration</h1>
                     <p className="lead">Enter all required info</p>
                 </header>
             );

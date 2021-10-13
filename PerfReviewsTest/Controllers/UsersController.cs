@@ -12,7 +12,7 @@ using PerfReviewsTest.Services;
 namespace PerfReviewsTest.Controllers
 {
     /// <summary>
-    /// Users web API
+    /// Users (employees) web API
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
