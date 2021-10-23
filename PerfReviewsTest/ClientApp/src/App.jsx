@@ -10,6 +10,8 @@ import { ReviewInfo } from './components/ReviewInfo';
 
 import { Ratings } from './components/Ratings';
 
+import { UserContextProvider } from './components/UserContext';
+
 import './custom.css'
 
 export default class App extends Component {
@@ -17,19 +19,21 @@ export default class App extends Component {
 
     render () {
         return (
-            <Layout>
-                <Route exact path='/' component={Home} />
+            <UserContextProvider>
+                <Layout>
+                    <Route exact path='/' component={Home} />
 
-                <Route exact path='/users' component={Users} />
-                <Route exact path='/users/register' component={UserInfo} />
-                <Route path='/users/edit/:id' component={UserInfo} />
+                    <Route exact path='/users' component={Users} />
+                    <Route exact path='/users/register' component={UserInfo} />
+                    <Route path='/users/edit/:id' component={UserInfo} />
 
-                <Route exact path='/reviews' component={Reviews} />
-                <Route exact path='/reviews/create' component={ReviewInfo} />
-                <Route exact path='/reviews/edit/:id' component={ReviewInfo} />
+                    <Route exact path='/reviews' component={Reviews} />
+                    <Route exact path='/reviews/create' component={ReviewInfo} />
+                    <Route exact path='/reviews/edit/:id' component={ReviewInfo} />
 
-                <Route exact path='/ratings' component={Ratings} />
-            </Layout>
+                    <Route exact path='/ratings' component={Ratings} />
+                </Layout>
+            </UserContextProvider>
         );
     }
 }

@@ -43,8 +43,8 @@ export class Users extends Component {
         return (
             <div>
                 <header className="h1 row">
-                    <div class="col-auto mr-auto">Employees</div>
-                    <div class="col-auto">
+                    <div className="col-auto mr-auto">Employees</div>
+                    <div className="col-auto">
                         <Link className="btn btn-primary" to="/users/register">Register new</Link>
                     </div>
                 </header>

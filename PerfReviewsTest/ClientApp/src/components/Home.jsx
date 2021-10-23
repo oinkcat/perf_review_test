@@ -1,27 +1,122 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import { UserContextConsumer } from './UserContext';
 
 export class Home extends Component {
-  static displayName = Home.name;
+    static displayName = Home.name;
+    static contextType = UserContextConsumer;
 
-  render () {
-    return (
-        <div>
-            <h1>Employees Performance Review Test!</h1>
-            <p className="lead">A small React app</p>
+    static USER_API = '/api/Users';
 
-            <ul className="items-list">
-                <li>
-                    <Link to="/users">Manage Employees</Link>
-                </li>
-                <li>
-                    <Link to="/reviews">Manage Performance Reviews</Link>
-                </li>
-                <li>
-                    <Link to="/ratings">Rate employees</Link>
-                </li>
-            </ul>
-        </div>
-    );
-  }
+    static testUserLogin = 'user';
+
+    constructor() {
+        super();
+
+        this.state = {
+            users: [],
+            redirect: false,
+            admin: false
+        };
+
+        this.logInAsEmployee = this.logInAsEmployee.bind(this);
+        this.logInAsAdmin = this.logInAsAdmin.bind(this);
+
+        this.loadUsers();
+    }
+
+    componentDidMount() {
+        this.context.events.onLoggedOut();
+    }
+
+    async loadUsers() {
+        const resp = await fetch(Home.USER_API);
+
+        this.setState({
+            users: await resp.json()
+        });
+    }
+
+    logInAsEmployee(userName) {
+        this.context.events.onLoggedIn(userName, false);
+
+        this.setState({
+            redirect: true,
+            admin: false
+        });
+    }
+
+    logInAsAdmin() {
+        this.context.events.onLoggedIn('admin', true);
+
+        this.setState({
+            redirect: true,
+            admin: true
+        });
+    }
+
+    render () {
+        return (
+            <div className="container text-center">
+                {this.state.redirect &&
+                    <Redirect to={this.state.admin ? '/users' : '/ratings'} />}
+
+                <h1 className="display-4">Employees Performance Review</h1>
+
+                <div className="container mt-5">
+                    <div className="row lead">
+                        <div className="col text-center">
+                            Select user to login
+                        </div>
+                    </div>
+
+                    <div className="row mt-4">
+                        <div className="col-md text-center mb-sm-3">
+                            <p>
+                                <strong>Admin</strong>
+                            </p>
+                            <p>Manage users and performance reviews</p>
+                            <div className="mt-2">
+                                <button
+                                    className="btn btn-primary"
+                                    type="button"
+                                    onClick={this.logInAsAdmin}>
+                                    Login as admin
+                                </button>
+                            </div>
+                        </div>
+                        <div className="col-md text-center mb-sm-3">
+                            <p>
+                                <strong>Employee</strong>
+                            </p>
+                            <p>Rate your coworkers</p>
+                            <div className="mt-2">
+                                <div className="btn-group" role="group">
+                                    <button
+                                        type="button"
+                                        className="btn btn-success dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false">
+                                        Login as ...
+                                    </button>
+
+                                    <div className="dropdown-menu">
+                                        {this.state.users.map(u => (
+                                            <a key={u.login}
+                                                href="javascript:void(0)"
+                                                className="dropdown-item"
+                                                onClick={this.logInAsEmployee.bind(this, u.login)}>
+                                                {u.name}
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
