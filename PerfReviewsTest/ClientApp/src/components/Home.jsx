@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
-import { UserContextConsumer } from './UserContext';
+import { UserContext } from './UserContext';
 
 export class Home extends Component {
     static displayName = Home.name;
-    static contextType = UserContextConsumer;
+    static contextType = UserContext;
 
     static USER_API = '/api/Users';
 

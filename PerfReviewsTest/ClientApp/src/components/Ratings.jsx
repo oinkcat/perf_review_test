@@ -1,10 +1,10 @@
 ﻿import React, { Component } from 'react';
 import { RateStars } from './RateStars';
-import { UserContextConsumer } from './UserContext';
+import { UserContext } from './UserContext';
 
 /** Ratings table */
 export class Ratings extends Component {
-    static contextType = UserContextConsumer;
+    static contextType = UserContext;
 
     static RATES_API_URL = '/api/Ratings';
 

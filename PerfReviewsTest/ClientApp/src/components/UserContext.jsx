@@ -1,9 +1,9 @@
 ﻿import React, { Component } from 'react';
 
-const { Provider, Consumer } = React.createContext();
+const UserContext = React.createContext();
 
 /** User information */
-class UserContextProvider extends Component {
+class UserContextRoot extends Component {
 
     state = {
         loginData: {
@@ -41,10 +41,10 @@ class UserContextProvider extends Component {
             events: this.events
         };
 
-        return <Provider value={props}>
+        return <UserContext.Provider value={props}>
             {this.props.children}
-        </Provider>;
+        </UserContext.Provider>;
     }
 }
 
-export { UserContextProvider, Consumer as UserContextConsumer };
+export { UserContext, UserContextRoot };

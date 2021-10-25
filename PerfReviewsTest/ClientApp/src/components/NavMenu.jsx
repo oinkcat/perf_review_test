@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-import { UserContextConsumer } from './UserContext';
+import { UserContext } from './UserContext';
 
 import './NavMenu.css';
 
@@ -36,7 +36,7 @@ export class NavMenu extends Component {
 
                         <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
                             <ul className="navbar-nav flex-grow">
-                                <UserContextConsumer>{this.renderNavBarItems}</UserContextConsumer>
+                                <UserContext.Consumer>{this.renderNavBarItems}</UserContext.Consumer>
                             </ul>
                         </Collapse>
                     </Container>

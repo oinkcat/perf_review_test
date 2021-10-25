@@ -10,7 +10,7 @@ import { ReviewInfo } from './components/ReviewInfo';
 
 import { Ratings } from './components/Ratings';
 
-import { UserContextProvider } from './components/UserContext';
+import { UserContextRoot } from './components/UserContext';
 
 import './custom.css'
 
@@ -19,7 +19,7 @@ export default class App extends Component {
 
     render () {
         return (
-            <UserContextProvider>
+            <UserContextRoot>
                 <Layout>
                     <Route exact path='/' component={Home} />
 
@@ -33,7 +33,7 @@ export default class App extends Component {
 
                     <Route exact path='/ratings' component={Ratings} />
                 </Layout>
-            </UserContextProvider>
+            </UserContextRoot>
         );
     }
 }
