@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
 import { UserContext } from './UserContext';
 
+import FetchUtils from './FetchUtils';
+
 export class Home extends Component {
     static displayName = Home.name;
     static contextType = UserContext;
@@ -30,29 +32,39 @@ export class Home extends Component {
     }
 
     async loadUsers() {
-        const resp = await fetch(Home.USER_API);
+        const resp = await FetchUtils.request(Home.USER_API);
 
         this.setState({
             users: await resp.json()
         });
     }
 
-    logInAsEmployee(userName) {
-        this.context.events.onLoggedIn(userName, false);
+    async logInAsEmployee(userName) {
+        const loginSuccess = await FetchUtils.loginRequest(userName);
 
-        this.setState({
-            redirect: true,
-            admin: false
-        });
+        if (loginSuccess) {
+            this.context.events.onLoggedIn(userName, false);
+
+            this.setState({
+                redirect: true,
+                admin: false
+            });
+        }
     }
 
-    logInAsAdmin() {
-        this.context.events.onLoggedIn('admin', true);
+    async logInAsAdmin() {
+        const ADMIN_USER_NAME = 'admin';
 
-        this.setState({
-            redirect: true,
-            admin: true
-        });
+        const loginSuccess = await FetchUtils.loginRequest(ADMIN_USER_NAME);
+
+        if (loginSuccess) {
+            this.context.events.onLoggedIn(ADMIN_USER_NAME, true);
+
+            this.setState({
+                redirect: true,
+                admin: true
+            });
+        }
     }
 
     render () {

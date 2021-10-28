@@ -11,7 +11,7 @@ namespace PerfReviewsTest.Controllers
     [ApiController]
     public class AuthController : Controller
     {
-        private JwtAuthenticator authenticator;
+        private readonly JwtAuthenticator authenticator;
 
         public AuthController(JwtAuthenticator authenticator)
         {

@@ -41,9 +41,11 @@ class UserContextRoot extends Component {
             events: this.events
         };
 
-        return <UserContext.Provider value={props}>
-            {this.props.children}
-        </UserContext.Provider>;
+        return (
+            <UserContext.Provider value={props}>
+                {this.props.children}
+            </UserContext.Provider>
+        );
     }
 }
 

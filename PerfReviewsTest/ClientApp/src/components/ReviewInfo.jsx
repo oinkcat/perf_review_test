@@ -1,6 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
+import FetchUtils from './FetchUtils';
+
 /** Review editing form */
 export class ReviewInfo extends Component {
 
@@ -31,14 +33,14 @@ export class ReviewInfo extends Component {
 
     async loadData() {
         // Users list
-        const resp = await fetch(ReviewInfo.USERS_API_URL);
+        const resp = await FetchUtils.request(ReviewInfo.USERS_API_URL);
         const info = (await resp.json()).map(u => ({ login: u.login, name: u.name }));
         this.setState({ users: info });
 
         // Editing review info
         if (this.state.isEditing) {
-            const reviewId = this.state.reviewInfo.id;
-            const reviewResp = await fetch(`${ReviewInfo.REVIEWS_API_URL}/${reviewId}`);
+            const infoUrl = `${ReviewInfo.REVIEWS_API_URL}/${this.state.reviewInfo.id}`;
+            const reviewResp = await FetchUtils.request(infoUrl);
             const loadedReviewInfo = await reviewResp.json();
 
             this.setState({
@@ -81,10 +83,10 @@ export class ReviewInfo extends Component {
             ? `${ReviewInfo.REVIEWS_API_URL}/${info.id}`
             : ReviewInfo.REVIEWS_API_URL;
 
-        await fetch(reviewApiUrl, {
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dataToSubmit),
-            method: this.state.isEditing ? 'PUT' : 'POST',
+        await FetchUtils.request(reviewApiUrl,
+            this.state.isEditing ? 'PUT' : 'POST',
+            JSON.stringify(dataToSubmit), {
+            'Content-Type': 'application/json'
         });
 
         this.setState({ redirect: true });

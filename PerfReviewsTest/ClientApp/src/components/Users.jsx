@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { LoadingIndicator } from './LoadingIndicator';
 
+import FetchUtils from './FetchUtils';
+
 /** Users table */
 export class Users extends Component {
 
@@ -25,7 +27,7 @@ export class Users extends Component {
     async fetchUsersInfo() {
         this.setState({ isLoading: true });
 
-        const resp = await fetch(`${Users.API_URL}/with/rating`);
+        const resp = await FetchUtils.request(`${Users.API_URL}/with/rating`);
         const usersData = await resp.json();
 
         this.setState({
@@ -35,7 +37,7 @@ export class Users extends Component {
     }
 
     async removeUser(login) {
-        await fetch(`${Users.API_URL}/${login}`, { method: 'DELETE' });
+        await FetchUtils.request(`${Users.API_URL}/${login}`, 'DELETE');
         await this.fetchUsersInfo();
     }
 

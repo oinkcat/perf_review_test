@@ -2,6 +2,8 @@
 import { Link } from 'react-router-dom';
 import { LoadingIndicator } from './LoadingIndicator';
 
+import FetchUtils from './FetchUtils';
+
 /** Reviews table */
 export class Reviews extends Component {
 
@@ -23,7 +25,7 @@ export class Reviews extends Component {
     async loadReviews() {
         this.setState({ isLoading: true });
 
-        const resp = await fetch(Reviews.API_URL);
+        const resp = await FetchUtils.request(Reviews.API_URL);
         const reviewsInfo = await resp.json();
 
         this.setState({
@@ -33,7 +35,7 @@ export class Reviews extends Component {
     }
 
     async removeReview(id) {
-        await fetch(`${Reviews.API_URL}/${id}`, { method: 'DELETE' });
+        await FetchUtils.request(`${Reviews.API_URL}/${id}`, 'DELETE');
         await this.loadReviews();
     }
 

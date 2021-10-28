@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
-using PerfReviewsTest.Models;
 using PerfReviewsTest.Models.Dto;
 using PerfReviewsTest.Services;
 
@@ -15,6 +15,7 @@ namespace PerfReviewsTest.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = AuthOptions.RoleEmployee)]
     public class RatingsController : ControllerBase
     {
         private readonly ILogger<RatingsController> logger;

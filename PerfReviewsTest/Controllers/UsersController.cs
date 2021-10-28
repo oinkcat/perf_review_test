@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using PerfReviewsTest.Models;
 using PerfReviewsTest.Models.Dto;
@@ -16,6 +17,7 @@ namespace PerfReviewsTest.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = AuthOptions.RoleAdmin)]
     public class UsersController : ControllerBase
     {
         private readonly ILogger<UsersController> logger;
@@ -32,6 +34,7 @@ namespace PerfReviewsTest.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<List<User>> Get() => await usersRepo.GetAllAsync();
 
         [HttpGet("with/rating")]

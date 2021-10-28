@@ -1,6 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
+import FetchUtils from './FetchUtils';
+
 /** User information editing form */
 export class UserInfo extends Component {
 
@@ -27,7 +29,8 @@ export class UserInfo extends Component {
     }
 
     async loadUserInfo() {
-        const resp = await fetch(`${UserInfo.API_URL}/${this.props.match.params.id}`);
+        const userInfoUrl = `${UserInfo.API_URL}/${this.props.match.params.id}`;
+        const resp = await FetchUtils.request(userInfoUrl);
         const userInfoFromServer = await resp.json();
 
         this.setState({
@@ -50,11 +53,11 @@ export class UserInfo extends Component {
     async dataSubmit(e) {
         e.preventDefault();
 
-        await fetch(UserInfo.API_URL, {
-            body: JSON.stringify(this.state.userInfo),
-            method: this.state.isEditing ? 'PUT' : 'POST',
-            headers: { 'Content-Type': 'application/json' }
-        });
+        await FetchUtils.request(UserInfo.API_URL,
+            this.state.isEditing ? 'PUT' : 'POST',
+            JSON.stringify(this.state.userInfo), {
+                'Content-Type': 'application/json'
+            });
 
         this.setState({ redirect: true });
     }

@@ -2,6 +2,8 @@
 import { RateStars } from './RateStars';
 import { UserContext } from './UserContext';
 
+import FetchUtils from './FetchUtils';
+
 /** Ratings table */
 export class Ratings extends Component {
     static contextType = UserContext;
@@ -31,7 +33,7 @@ export class Ratings extends Component {
 
     async loadReviewsToRate(reviewerLogin) {
         const getListUrl = `${Ratings.RATES_API_URL}/${reviewerLogin}`;
-        const ratingsResp = await fetch(getListUrl);
+        const ratingsResp = await FetchUtils.request(getListUrl);
 
         this.setState({
             ratings: await ratingsResp.json()
@@ -39,10 +41,9 @@ export class Ratings extends Component {
     }
 
     async userRated(reviewId, rating) {
-        const rateResp = await fetch(`${Ratings.RATES_API_URL}/${reviewId}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: `"${rating}"`
+        const rateUrl = `${Ratings.RATES_API_URL}/${reviewId}`;
+        const rateResp = await FetchUtils.request(rateUrl, 'PUT', `"${rating}"`, {
+            'Content-Type': 'application/json'
         });
 
         console.log(rateResp.status);
