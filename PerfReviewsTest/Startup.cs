@@ -1,11 +1,13 @@
+using PerfReviewsTest.Models;
+using PerfReviewsTest.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PerfReviewsTest.Models;
-using PerfReviewsTest.Services;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace PerfReviewsTest
 {
@@ -33,6 +35,29 @@ namespace PerfReviewsTest
             services.AddScoped<IUsersRepository, UsersRepo>();
             services.AddScoped<IAsyncRepository<Review, int>, ReviewsRepo>();
             services.AddScoped<IReviewer, PerfReviewer>();
+
+            // JWT Authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = AuthOptions.Issuer,
+                        ValidAudience = AuthOptions.Audience,
+                        IssuerSigningKey = AuthOptions.GetSecurityKey()
+                    };
+                });
+
+            services.AddAuthorization();
+
+            services.AddScoped<JwtAuthenticator>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -50,6 +75,9 @@ namespace PerfReviewsTest
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
