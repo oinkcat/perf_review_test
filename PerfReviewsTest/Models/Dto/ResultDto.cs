@@ -15,11 +15,14 @@ namespace PerfReviewsTest.Models.Dto
 
         public ushort? Mark { get; set; }
 
+        public string Comment { get; set; }
+
         public ResultDto(Result result)
         {
             Id = result.Id;
             TargetUser = result.Review.User;
             Mark = result.Mark;
+            Comment = result.Comment;
 
             TargetUser.Results = null;
             TargetUser.Reviews = null;

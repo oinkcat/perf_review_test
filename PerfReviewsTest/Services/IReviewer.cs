@@ -29,5 +29,13 @@ namespace PerfReviewsTest.Services
         /// <param name="target">User for rating</param>
         /// <param name="rating">User's rating</param>
         Task RateUser(User reviewer, User target, ushort rating);
+
+        /// <summary>
+        /// Save comment for specified user
+        /// </summary>
+        /// <param name="reviewer">User who rate</param>
+        /// <param name="target">User for rating</param>
+        /// <param name="commentText">Comment text</param>
+        Task CommentUser(User reviewer, User target, string commentText);
     }
 }

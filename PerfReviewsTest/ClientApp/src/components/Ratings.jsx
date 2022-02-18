@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { RateStars } from './RateStars';
+import { CommentForm } from './CommentForm';
 import { UserContext } from './UserContext';
 
 import FetchUtils from './FetchUtils';
@@ -12,10 +13,11 @@ export class Ratings extends Component {
 
     constructor(props) {
         super(props);
-
+        
         this.state = {
             currentUser: '',
-            ratings: []
+            ratings: [],
+            selectedForComment: null
         };
 
         this.loadReviewsToRate = this.loadReviewsToRate.bind(this);
@@ -41,12 +43,34 @@ export class Ratings extends Component {
     }
 
     async userRated(reviewId, rating) {
-        const rateUrl = `${Ratings.RATES_API_URL}/${reviewId}`;
-        const rateResp = await FetchUtils.request(rateUrl, 'PUT', `"${rating}"`, {
+        const rateUrl = `${Ratings.RATES_API_URL}/rating/${reviewId}`;
+        await FetchUtils.request(rateUrl, 'PUT', `"${rating}"`, {
             'Content-Type': 'application/json'
         });
+    }
 
-        console.log(rateResp.status);
+    async userCommented(reviewId, commentText) {
+        const commentUrl = `${Ratings.RATES_API_URL}/comment/${reviewId}`;
+        await FetchUtils.request(commentUrl, 'PUT', `"${commentText}"`, {
+            'Content-Type': 'application/json'
+        });
+    }
+
+    openCommentForm(userRatingItem) {
+        this.setState({
+            selectedForComment: userRatingItem
+        });
+    }
+
+    commentModalClosing(written, text) {
+        if (written) {
+            this.userCommented(this.state.selectedForComment.id, text);
+            this.state.selectedForComment.comment = text;
+        }
+
+        this.setState({
+            selectedForComment: null
+        });
     }
 
     render() {
@@ -59,6 +83,10 @@ export class Ratings extends Component {
                 <p className="lead">Rate employees listed below</p>
 
                 {this.renderRatingsTable()}
+
+                <CommentForm
+                    item={this.state.selectedForComment}
+                    onClosing={this.commentModalClosing.bind(this)} />
             </div>
         );
     }
@@ -71,6 +99,7 @@ export class Ratings extends Component {
                         <tr>
                             <th className="w-75">Employee name</th>
                             <th className="w-auto">Your rating</th>
+                            <th className="w-auto">Comment</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -81,6 +110,13 @@ export class Ratings extends Component {
                                     <RateStars
                                         mark={r.mark}
                                         onRated={this.userRated.bind(this, r.id)} />
+                                </td>
+                                <td>
+                                    <button
+                                        className="btn btn-light"
+                                        onClick={this.openCommentForm.bind(this, r)}>
+                                        {r.comment.length > 0 ? 'Edit' : 'Write'}
+                                    </button>
                                 </td>
                             </tr>
                         ))}

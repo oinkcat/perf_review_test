@@ -55,6 +55,11 @@ namespace PerfReviewsTest.Services
                 .HasMany(rev => rev.Results)
                 .WithOne(res => res.Review)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Review result entity
+            modelBuilder.Entity<Result>()
+                .Property(r => r.Comment)
+                .HasMaxLength(256);
         }
     }
 }

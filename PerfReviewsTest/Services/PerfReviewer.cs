@@ -43,5 +43,17 @@ namespace PerfReviewsTest.Services
 
             await context.SaveChangesAsync();
         }
+
+        /// <inheritdoc />
+        public async Task CommentUser(User reviewer, User target, string commentText)
+        {
+            var resultToUpdate = await context.Results
+                .SingleAsync(res => res.Reviewer.Login.Equals(reviewer.Login) &&
+                                    res.Review.User.Login.Equals(target.Login));
+
+            resultToUpdate.Comment = commentText;
+
+            await context.SaveChangesAsync();
+        }
     }
 }

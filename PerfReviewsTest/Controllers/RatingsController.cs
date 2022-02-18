@@ -24,7 +24,7 @@ namespace PerfReviewsTest.Controllers
 
         private readonly IReviewer reviewSvc;
 
-        public RatingsController (
+        public RatingsController(
             ILogger<RatingsController> logger,
             IUsersRepository usersRepo,
             IReviewer reviewSvc
@@ -46,19 +46,33 @@ namespace PerfReviewsTest.Controllers
                 .ToList();
         }
 
-        [HttpPut("{id}")]
-        public async Task Put(int id, [FromBody]string markValue)
+        [HttpPut("rating/{id}")]
+        public async Task Put(int id, [FromBody] int markValue)
         {
             var reviewResult = await reviewSvc.GetByIdAsync(id);
             var targetUser = reviewResult.Review.User;
-            ushort mark = ushort.Parse(markValue);
+            ushort mark = (ushort)markValue;
 
             await reviewSvc.RateUser(reviewResult.Reviewer, targetUser, mark);
 
-            logger.LogInformation("User {0} rated by user {1} with {2}", 
-                                  reviewResult.Reviewer, 
+            logger.LogInformation("User {0} rated by user {1} with {2}",
+                                  reviewResult.Reviewer,
                                   targetUser,
                                   mark);
+        }
+
+        [HttpPut("comment/{id}")]
+        public async Task Put(int id, [FromBody]string commentText)
+        {
+            var reviewResult = await reviewSvc.GetByIdAsync(id);
+            var targetUser = reviewResult.Review.User;
+
+            await reviewSvc.CommentUser(reviewResult.Reviewer, targetUser, commentText);
+
+            logger.LogInformation("User {0} was commented by {1} with {2}",
+                                  reviewResult.Reviewer,
+                                  targetUser,
+                                  commentText);
         }
     }
 }

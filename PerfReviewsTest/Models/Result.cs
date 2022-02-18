@@ -33,5 +33,10 @@ namespace PerfReviewsTest.Models
         /// Performance review's mark
         /// </summary>
         public ushort? Mark { get; set; }
+
+        /// <summary>
+        /// Optional comment text
+        /// </summary>
+        public string Comment { get; set; }
     }
 }
